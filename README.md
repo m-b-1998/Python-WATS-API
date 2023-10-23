@@ -6,8 +6,6 @@ Want to extend or fix an existing script? Open a pull request with your changes,
 
 ## ToDo
 
-- Add Misc UUT info
-- Add Subunit info
 - Add remaining test types
 
 ## License

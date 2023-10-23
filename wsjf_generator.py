@@ -108,7 +108,9 @@ class wsjf_generator:
             "uut":{
                 "user": self.user,
                 "comment": "No Comments added"
-                }
+                },
+            "miscInfos": [],
+            "subUnits": []
             }
         self.wsjfReport = dictHeader
             
@@ -186,6 +188,23 @@ class wsjf_generator:
         self.counterID += 1
         self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
 
+    def addMiscInfo(self, description: str, text: str, numeric: float = 0.0):
+        _dict = {
+            "description": description,
+            "numeric": numeric,
+            "text": text
+        }
+        self.wsjfReport['miscInfos'].append(_dict)
+
+    def addSubUnitInfo(self, partType: str, serialNumber: str, partNumber: str, revision: str):
+        _dict = {
+            "partType": partType,
+            "sn": serialNumber,
+            "pn": partNumber,
+            "rev": revision
+        }
+        self.wsjfReport['subUnits'].append(_dict)
+
     def saveReport(self):
         for i in self.__TestGroups:
             self.updateStatusGroup(i)
@@ -204,7 +223,6 @@ class wsjf_generator:
             self.__TestGroups[testGroupID]['status'] = TestResult.SKIPPED
         if any(x == TestResult.FAILED for x in results):
             self.__TestGroups[testGroupID]['status'] = TestResult.FAILED
-
 
     def updateStatusReport(self):
         results = []
