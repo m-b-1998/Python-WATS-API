@@ -4,6 +4,12 @@ This respository contains unoffical Python scripts submitted by customers and us
 Have a Python script that interacts with WATS and want to share? Open a pull request, we will take a look and add it.  
 Want to extend or fix an existing script? Open a pull request with your changes, we will take a look and add it.
 
+## ToDo
+
+- Add Misc UUT info
+- Add Subunit info
+- Add remaining test types
+
 ## License
 
 This repository is licensed under the MIT license. See LICENSE.md.
