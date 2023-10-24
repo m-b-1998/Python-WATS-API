@@ -11,8 +11,11 @@ import uuid
 from datetime import datetime
 from enum import Enum
 
+import requests
+from colorama import Fore, init
 from pytz import timezone
 
+init(autoreset=True)
 
 class Group(str, Enum):
     STARTUP = "S"
@@ -87,8 +90,10 @@ class wsjf_generator:
         self.TestSequencerName="wsjf_generator.py"
         self.TestSequencerVersion = "0.1"
         self.__TestGroups = {}
+        self.__writeHeader()
+        self.resultsTable = {}
 
-    def writeHeader(self):
+    def __writeHeader(self):
         dictHeader =   {
             "type": self.testType,
             "id": self.uuid,
@@ -187,6 +192,7 @@ class wsjf_generator:
               }
         self.counterID += 1
         self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
+        self.resultsTable[testName] = status
 
     def addMiscInfo(self, description: str, text: str, numeric: float = 0.0):
         _dict = {
@@ -211,7 +217,27 @@ class wsjf_generator:
             self.wsjfReport['root']['steps'].append(self.__TestGroups[i])
         self.updateStatusReport()
         self.fileHandler.write(json.dumps(self.wsjfReport, indent=2))
+        print(Fore.GREEN + 'Test summary:')
+        c=0
+        for key in self.resultsTable.keys():
+            if self.resultsTable[key] == TestResult.FAILED:
+                print(Fore.RED + key)
+                c+=1
+        print(Fore.RED if c>0 else Fore.GREEN + f'{c} test(s) failed')
 
+    def uploadReport(self, serverURL, token):
+        r = requests.post(f"https://{serverURL}/api/report/wsjf", json=self.wsjfReport,
+                          headers={
+                              "Content-Type": "application/json",
+                              "Authorization": token
+                          })
+        print(f'Server response: {r.status_code}')
+
+    def ReportContainsFailedTests(self) -> bool:
+        for key in self.resultsTable.keys():
+            if self.resultsTable[key] == TestResult.FAILED:
+                return True
+        return False
     # WSJF support functions
     def updateStatusGroup(self, testGroupID):
         results = []
