@@ -82,8 +82,6 @@ class wsjf_generator:
         self.startUTC = now.isoformat(timespec='seconds')[:-6] + ".Z"
         self.stepCounter = 2
         self.rootSteps = []
-        self.sWatsToken="" # "Your Token here"
-        self.sWatsURL ="https://example.wats.com/api/report/wsjf" # Your URL here, remember to include the rest api endpoint
         self.wsjfReport = {}
         self.counterID = 0
         self.user = os.getlogin() if user == "" else user
@@ -223,7 +221,7 @@ class wsjf_generator:
             if self.resultsTable[key] == TestResult.FAILED:
                 print(Fore.RED + key)
                 c+=1
-        print(Fore.RED if c>0 else Fore.GREEN + f'{c} test(s) failed')
+        print( (Fore.RED if c>0 else Fore.GREEN) + f'{c} test(s) failed')
 
     def uploadReport(self, serverURL, token):
         r = requests.post(f"https://{serverURL}/api/report/wsjf", json=self.wsjfReport,
