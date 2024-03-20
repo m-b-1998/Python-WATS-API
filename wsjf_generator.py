@@ -61,7 +61,6 @@ def evaluateNumericLimitTest(operation: Operation, measuredValue, lowLimit, high
         return TestResult.PASSED if measuredValue == lowLimit else TestResult.FAILED
     return TestResult.SKIPPED
 
-
 class wsjf_generator:
     def __init__(self, filename, testType: TestType, serialNumber: str, revision: str, productName: str, partNumber: str, processCode: int, user: str = "", purpose: str = None, location:str = None, machineName: str = '', processName: str =''):
         self.fileHandler = open(filename, 'w')
@@ -129,7 +128,7 @@ class wsjf_generator:
               ],
               "seqCall": {
                   "path": self.TestSequencerName,
-                  "name": "Numeric tests",
+                  "name": "Test sequence",
                   "version": self.TestSequencerVersion
                   }
         }
@@ -151,7 +150,7 @@ class wsjf_generator:
             ],
             "seqCall": {
                 "path": self.TestSequencerName,
-                "name": "Numeric tests",
+                "name": "Test sequence",
                 "version": self.TestSequencerVersion
             }
             }
@@ -188,6 +187,30 @@ class wsjf_generator:
                   }
                 ]
               }
+        self.counterID += 1
+        self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
+        self.resultsTable[testName] = status
+
+    """ Evaluates if measuredValue is True which means the test is a Pass. Passing TestResult as an argument skips the evaluation. """
+    def addBooleanTest(self, testGroupID, testName: str, measuredValue: bool, steptime: float = 0.0, result: TestResult = None):
+        if result is None:
+            status = TestResult.PASSED if measuredValue else TestResult.FAILED
+        else:
+            status = result
+        dictSingleTest = {
+                "id": self.counterID,
+                "group": "M",
+                "stepType": "ET_PFT",
+                "name": testName,
+                "status": status,
+                "totTime": steptime,
+                "booleanMeas": [
+                    {
+                        "name": None,
+                        "status": status
+                    }
+                ]
+            }
         self.counterID += 1
         self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
         self.resultsTable[testName] = status
