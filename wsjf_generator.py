@@ -62,7 +62,7 @@ def evaluateNumericLimitTest(operation: Operation, measuredValue, lowLimit, high
     return TestResult.SKIPPED
 
 class wsjf_generator:
-    def __init__(self, filename, testType: TestType, serialNumber: str, revision: str, productName: str, partNumber: str, processCode: int, user: str = "", purpose: str = None, location:str = None, machineName: str = '', processName: str =''):
+    def __init__(self, filename, testType: TestType, serialNumber: str, revision: str, productName: str, partNumber: str, processCode: int, user: str = "", purpose: str = None, location:str = None, machineName: str = '', processName: str = '', executionTime: int = 0):
         self.fileHandler = open(filename, 'w')
         self.uuid = str(uuid.uuid4())
         self.result = TestResult.FAILED
@@ -83,8 +83,9 @@ class wsjf_generator:
         self.rootSteps = []
         self.wsjfReport = {}
         self.counterID = 0
+        self.executionTime = executionTime
         self.user = os.getlogin() if user == "" else user
-        self.TestSequencerName="wsjf_generator.py"
+        self.TestSequencerName = "WSJF generator for Python"
         self.TestSequencerVersion = "0.1"
         self.__TestGroups = {}
         self.__writeHeader()
@@ -109,14 +110,15 @@ class wsjf_generator:
             "root": "",
             "uut":{
                 "user": self.user,
-                "comment": "No Comments added"
+                "comment": "No Comments added",
+                "execTime": self.executionTime
                 },
             "miscInfos": [],
             "subUnits": []
             }
         self.wsjfReport = dictHeader
             
-    def addMain(self, totalExecutionTime: float = 0.0):
+    def addMain(self, totalExecutionTime: int = 0):
         dictMain = {
             "id": 0,
             "group": "M",
