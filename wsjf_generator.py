@@ -189,6 +189,11 @@ class wsjf_generator:
                   }
                 ]
               }
+        
+        if status == TestResult.PASSED:
+            print(f"Testing {testName} -> " + Fore.GREEN + "Passed")
+        else:
+            print(f"Testing {testName} -> " + Fore.RED + "Failed")
         self.counterID += 1
         self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
         self.resultsTable[testName] = status
@@ -213,6 +218,10 @@ class wsjf_generator:
                     }
                 ]
             }
+        if status == TestResult.PASSED:
+            print(f"Testing {testName} -> " + Fore.GREEN + "Passed")
+        else:
+            print(f"Testing {testName} -> " + Fore.RED + "Failed")
         self.counterID += 1
         self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
         self.resultsTable[testName] = status
@@ -247,6 +256,7 @@ class wsjf_generator:
                 print(Fore.RED + key)
                 c+=1
         print( (Fore.RED if c>0 else Fore.GREEN) + f'{c} test(s) failed')
+        return c
 
     def uploadReport(self, serverURL, token):
         r = requests.post(f"https://{serverURL}/api/report/wsjf", json=self.wsjfReport,
