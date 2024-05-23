@@ -226,7 +226,7 @@ class wsjf_generator:
         self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
         self.resultsTable[testName] = status
 
-    def addMiscInfo(self, description: str, text: str, numeric: float = 0.0):
+    def addMiscInfo(self, description: str, text: str, numeric: int = 0):
         _dict = {
             "description": description,
             "numeric": numeric,
