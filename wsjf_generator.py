@@ -199,9 +199,9 @@ class wsjf_generator:
         self.resultsTable[testName] = status
 
     """ Evaluates if measuredValue is True which means the test is a Pass. Passing TestResult as an argument skips the evaluation. """
-    def addBooleanTest(self, testGroupID, testName: str, measuredValue: bool, steptime: float = 0.0, result: TestResult = None):
+    def addBooleanTest(self, testGroupID, testName: str, measuredValue: bool, expectedValue: bool = True, steptime: float = 0.0, result: TestResult = None):
         if result is None:
-            status = TestResult.PASSED if measuredValue else TestResult.FAILED
+            status = TestResult.PASSED if measuredValue == expectedValue else TestResult.FAILED
         else:
             status = result
         dictSingleTest = {
