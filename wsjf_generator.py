@@ -12,10 +12,7 @@ from datetime import datetime
 from enum import Enum
 
 import requests
-from colorama import Fore, init
 from pytz import timezone
-
-init(autoreset=True)
 
 class Group(str, Enum):
     STARTUP = "S"
@@ -191,9 +188,9 @@ class wsjf_generator:
               }
         
         if status == TestResult.PASSED:
-            print(f"Testing {testName} -> " + Fore.GREEN + "Passed")
+            print(f"Testing {testName} -> Passed")
         else:
-            print(f"Testing {testName} -> " + Fore.RED + "Failed")
+            print(f"Testing {testName} -> Failed")
         self.counterID += 1
         self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
         self.resultsTable[testName] = status
@@ -219,9 +216,9 @@ class wsjf_generator:
                 ]
             }
         if status == TestResult.PASSED:
-            print(f"Testing {testName} -> " + Fore.GREEN + "Passed")
+            print(f"Testing {testName} -> Passed")
         else:
-            print(f"Testing {testName} -> " + Fore.RED + "Failed")
+            print(f"Testing {testName} -> Failed")
         self.counterID += 1
         self.__TestGroups[testGroupID]['steps'].append(dictSingleTest)
         self.resultsTable[testName] = status
@@ -249,13 +246,13 @@ class wsjf_generator:
             self.wsjfReport['root']['steps'].append(self.__TestGroups[i])
         self.updateStatusReport()
         self.fileHandler.write(json.dumps(self.wsjfReport, indent=2))
-        print(Fore.GREEN + 'Test summary:')
+        print('Test summary:')
         c=0
         for key in self.resultsTable.keys():
             if self.resultsTable[key] == TestResult.FAILED:
-                print(Fore.RED + key)
+                print(key)
                 c+=1
-        print( (Fore.RED if c>0 else Fore.GREEN) + f'{c} test(s) failed')
+        print(f'{c} test(s) failed')
         return c
 
     def uploadReport(self, serverURL, token):
