@@ -246,7 +246,7 @@ class wsjf_generator:
             self.wsjfReport['root']['steps'].append(self.__TestGroups[i])
         self.updateStatusReport()
         self.fileHandler.write(json.dumps(self.wsjfReport, indent=2))
-        print('Test summary:')
+        print('The following test(s) failed:')
         c=0
         for key in self.resultsTable.keys():
             if self.resultsTable[key] == TestResult.FAILED:
