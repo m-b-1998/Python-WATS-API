@@ -257,7 +257,7 @@ class wsjf_generator:
         r = requests.post(f"https://{serverURL}/api/report/wsjf", json=self.wsjfReport,
                           headers={
                               "Content-Type": "application/json",
-                              "Authorization": token
+                              "Authorization": f"Basic {token}"
                           })
         print(f'Server response: {r.status_code}')
 
