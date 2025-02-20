@@ -10,6 +10,7 @@ import socket
 import uuid
 from datetime import datetime
 from enum import Enum
+import logging
 
 import requests
 from pytz import timezone
@@ -86,6 +87,9 @@ class wsjf_generator:
         self.__TestGroups = {}
         self.__writeHeader()
         self.resultsTable = {}
+
+        logging.getLogger("requests").setLevel(logging.WARNING)
+        logging.getLogger("urllib3").setLevel(logging.WARNING)
 
     def __writeHeader(self):
         dictHeader =   {
@@ -259,7 +263,11 @@ class wsjf_generator:
                               "Content-Type": "application/json",
                               "Authorization": f"Basic {token}"
                           })
-        print(f'Server response: {r.status_code}')
+        _status = r.status_code
+        if _status == 200:
+            print("Upload OK!")
+        else:
+            print(f'Upload failed! HTTP error: {_status}')
 
     def ReportContainsFailedTests(self) -> bool:
         for key in self.resultsTable.keys():
