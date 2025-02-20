@@ -59,14 +59,13 @@ def evaluateNumericLimitTest(operation: Operation, measuredValue, lowLimit, high
     return TestResult.SKIPPED
 
 class wsjf_generator:
-    def __init__(self, filename, testType: TestType, serialNumber: str, revision: str, productName: str, partNumber: str, processCode: int, user: str = "", purpose: str = None, location:str = None, machineName: str = '', processName: str = '', executionTime: int = 0):
+    def __init__(self, filename, testType: TestType, serialNumber: str, revision: str, partNumber: str, processCode: int, purpose: str, location:str, user: str = "", machineName: str = "", processName: str = "", executionTime: int = 0):
         self.fileHandler = open(filename, 'w')
         self.uuid = str(uuid.uuid4())
         self.result = TestResult.FAILED
         self.testType = testType
         self.serialNumber = serialNumber
         self.revision = revision
-        self.productName = productName
         self.partNumber = partNumber
         self.processCode = processCode
         self.purpose = purpose
@@ -95,7 +94,6 @@ class wsjf_generator:
             "pn": self.partNumber,
             "sn": self.serialNumber,
             "rev": self.revision,
-            "productName": self.productName,
             "processCode": self.processCode,
             "processName": self.processName,
             "result": "F",
